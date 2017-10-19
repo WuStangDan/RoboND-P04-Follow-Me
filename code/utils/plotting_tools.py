@@ -123,6 +123,7 @@ class LoggerPlotter(keras.callbacks.Callback):
     """
     def __init__(self):
         self.hist_dict = {'loss':[], 'val_loss':[]}
+        self.count = 0
         
     def on_epoch_begin(self, epoch, logs=None):
         self.seen = 0
@@ -142,14 +143,18 @@ class LoggerPlotter(keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         if logs is not None:
+            self.count += 1
             for k in self.params['metrics']:
                 if k in self.totals:
                     # Make value available to next callbacks.
                     logs[k] = self.totals[k] / self.seen
-            
             self.hist_dict['loss'].append(logs['loss'])
             if 'val_loss' in self.params['metrics']:
                 self.hist_dict['val_loss'].append(logs['val_loss'])
-                train_val_curve(self.hist_dict['loss'], self.hist_dict['val_loss'])
-            else:
-                train_val_curve(self.hist_dict['loss'])
+            # Only plot every 5 epochs.
+            if self.count % 5 == 0:
+                if 'val_loss' in self.params['metrics']:
+                    #self.hist_dict['val_loss'].append(logs['val_loss'])
+                    train_val_curve(self.hist_dict['loss'], self.hist_dict['val_loss'])
+                else:
+                    train_val_curve(self.hist_dict['loss'])
