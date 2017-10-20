@@ -108,3 +108,15 @@ Final Score: 0.4270
 ### Performance on Simulator
 When operating on the simulator, the model is able to pick up the hero from a reasonable distance, and once it closes in never lose sight of it. This model had 100% performance once it got close to the hero (evidenced by 539 true positives), and thus never lost it even in big crowds.
 
+The models performance could be improved by using more training data, particularly when the hero is far away. Other than that the model performs really well.
+
+I believe this model could be used to also idenify and track and another object (based on suggestions of using this model for tracking a dog or car) but training data specific too these objects would be required.
+
+![Hero Tracking][image5]
+
+Left is image, Middle is Ground Truth, Right is Model
+![Model Performance][image6]
+
+![Model Performance][image7]
+
+![Model Performance][image8]
